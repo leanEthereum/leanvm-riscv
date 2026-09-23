@@ -1,0 +1,15 @@
+[package]
+name = "leanvm-emulator"
+description = "The reference rv64im interpreter, producing the execution record the prover consumes."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

@@ -1,0 +1,15 @@
+[package]
+name = "leanvm-prover"
+description = "Witness generation, the machine declaration, and proving and verifying a run."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

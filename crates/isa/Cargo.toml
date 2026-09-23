@@ -1,0 +1,15 @@
+[package]
+name = "leanvm-isa"
+description = "The rv64im instruction set: decoding into instruction classes and the bytecode table."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

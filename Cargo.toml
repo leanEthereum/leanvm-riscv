@@ -1,0 +1,65 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.lints]
+rust.rust_2018_idioms = { level = "deny", priority = -1 }
+rust.unused_must_use = "deny"
+rust.rust_2024_incompatible_pat = "warn"
+rustdoc.all = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+
+# Some pedantic lints
+semicolon_if_nothing_returned = "warn"
+match_bool = "warn"
+needless_pass_by_value = "warn"
+
+redundant_pub_crate = "allow"
+too_long_first_doc_paragraph = "allow"
+unused_peekable = "allow"
+tuple_array_conversions = "allow"
+transmute_undefined_repr = "allow"
+cognitive_complexity = "allow"
+
+[workspace.dependencies]
+# Plonky3 binary backend.
+p3-air = { git = "https://github.com/Plonky3/Plonky3", branch = "main" }
+p3-binary-field = { git = "https://github.com/Plonky3/Plonky3", branch = "main" }
+p3-binary-pcs = { git = "https://github.com/Plonky3/Plonky3", branch = "main" }
+p3-bus = { git = "https://github.com/Plonky3/Plonky3", branch = "main" }
+p3-challenger = { git = "https://github.com/Plonky3/Plonky3", branch = "main" }
+p3-field = { git = "https://github.com/Plonky3/Plonky3", branch = "main" }
+p3-multi-stark = { git = "https://github.com/Plonky3/Plonky3", branch = "main" }
+
+# Local dependencies
+leanvm-chips = { path = "crates/chips" }
+leanvm-circuits = { path = "crates/circuits" }
+leanvm-elf = { path = "crates/elf" }
+leanvm-emulator = { path = "crates/emulator" }
+leanvm-isa = { path = "crates/isa" }
+leanvm-memory = { path = "crates/memory" }
+leanvm-precompiles = { path = "crates/precompiles" }
+leanvm-prover = { path = "crates/prover" }
+leanvm-riscv = { path = "crates/riscv" }
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/leanEthereum/leanvm-riscv"
+homepage = "https://github.com/leanEthereum/leanvm-riscv"
+keywords = ["cryptography", "zkvm", "risc-v", "stark", "plonky3"]
+categories = ["cryptography::cryptocurrencies"]
+
+[profile.profiling]
+inherits = "release"
+debug = true
+
+[profile.optimized]
+inherits = "release"
+lto = "thin"
+codegen-units = 1
+opt-level = 3

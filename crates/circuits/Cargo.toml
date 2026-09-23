@@ -1,0 +1,15 @@
+[package]
+name = "leanvm-circuits"
+description = "Boolean circuits of the instruction classes: adder, shifter, multiplier, divider."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

@@ -1,0 +1,11 @@
+/target
+flamegraph.svg
+
+# Python
+__pycache__/
+
+# Proptest data
+proptest-regressions/
+
+# Claude cache
+.claude
