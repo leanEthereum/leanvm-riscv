@@ -1,0 +1,15 @@
+[package]
+name = "leanvm-elf"
+description = "Loads a guest ELF file into a program: text, entry point, and initial memory image."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

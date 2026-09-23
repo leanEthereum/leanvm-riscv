@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "*" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  RUSTFLAGS: -C debuginfo=0
+
+jobs:
+  build_and_test:
+    name: Build and Test (${{ matrix.name }})
+    strategy:
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-latest
+          - name: macos
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest
+
+      - name: Test
+        run: python3 scripts/check.py test
+
+      # nextest doesn't run doctests, so cover them with plain `cargo test`.
+      - name: Test doctests
+        run: python3 scripts/check.py doctest
+
+  lint:
+    name: Formatting and Clippy
+    runs-on: ubuntu-latest
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-machete,cargo-sort,taplo
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: Sort Cargo.toml
+        run: python3 scripts/check.py lint --check sort
+
+      - name: Check TOML formatting
+        run: python3 scripts/check.py lint --check toml
+
+      # `--with-metadata` resolves each manifest through cargo.
+      # Only that resolution makes dev-dependencies visible to the scan.
+      - name: Unused dependencies
+        run: python3 scripts/check.py lint --check deps
+
+      - name: Clippy
+        run: python3 scripts/check.py lint --check clippy
+
+      - name: Docs
+        env:
+          RUSTDOCFLAGS: -D rustdoc::broken_intra_doc_links
+        run: python3 scripts/check.py lint --check docs
+
+      - name: Format
+        run: python3 scripts/check.py lint --check fmt

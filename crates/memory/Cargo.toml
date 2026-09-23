@@ -1,0 +1,15 @@
+[package]
+name = "leanvm-memory"
+description = "Registers, RAM and advice as timestamped read-write memories over the bus."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

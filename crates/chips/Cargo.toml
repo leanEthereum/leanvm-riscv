@@ -1,0 +1,15 @@
+[package]
+name = "leanvm-chips"
+description = "One table per instruction class: state step, bytecode read, register and memory accesses."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true
